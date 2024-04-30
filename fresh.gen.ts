@@ -7,6 +7,7 @@ import * as $_app from "./routes/_app.tsx";
 import * as $api_joke from "./routes/api/joke.ts";
 import * as $index from "./routes/index.tsx";
 import * as $Editor from "./islands/Editor.tsx";
+import * as $ShareBottomSheet from "./islands/ShareBottomSheet.tsx";
 import * as $TopBar from "./islands/TopBar.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
@@ -19,6 +20,7 @@ const manifest = {
   },
   islands: {
     "./islands/Editor.tsx": $Editor,
+    "./islands/ShareBottomSheet.tsx": $ShareBottomSheet,
     "./islands/TopBar.tsx": $TopBar,
   },
   baseUrl: import.meta.url,

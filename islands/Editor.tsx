@@ -1,8 +1,8 @@
 import { type Signal } from "@preact/signals";
 import { useCallback } from "preact/hooks";
-import { Editor } from "shared/Editor/ui/Editor.tsx";
+import { Editor as EditorComponent } from "shared/Editor/ui/Editor.tsx";
 
-export default function MyIsland(
+export default function Editor(
   props: Readonly<{
     data: Signal<string>;
   }>,
@@ -14,7 +14,7 @@ export default function MyIsland(
   }, [data]);
 
   return (
-    <Editor
+    <EditorComponent
       text={data.value}
       onTextChange={handleTextChange}
       placeholder="A new note text"

@@ -1,15 +1,21 @@
+import { Signal } from "@preact/signals";
+import { useCallback } from "preact/hooks";
+
 export default function TopBar(
   props: Readonly<{
-    onEncryptClick: () => void;
+    shareSignal: Signal<boolean>;
   }>,
 ) {
-  const { onEncryptClick } = props;
+  const { shareSignal } = props;
+  const showShareDialog = useCallback(() => {
+    shareSignal.value = true;
+  }, [shareSignal]);
   return (
     <div className="flex flex-1 items-center justify-between flex-nowrap h-12 min-h-12 bg-gray-500 pl-2 pr-2">
       <TopBarTitle title="Pasta♾️" />
       <div className="flex shrink h-full">
         <TopBarButton title="Help" onClick={() => {}} />
-        <TopBarButton title="Share" onClick={onEncryptClick} />
+        <TopBarButton title="Share" onClick={showShareDialog} />
       </div>
     </div>
   );
