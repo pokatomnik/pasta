@@ -5,7 +5,7 @@ import { assertNotEquals } from "$std/assert/assert_not_equals.ts";
 import { assertEquals } from "$std/assert/assert_equals.ts";
 
 Deno.test("PastaPacker - happy pass with encryption", async () => {
-  const packer = new PastaPacker(new AES(), new BrotliCompressor());
+  const packer = new PastaPacker(new BrotliCompressor(), new AES());
   const author = "John Doe";
   const text = 'Hello, Мир!"№;%:?*(';
   const key = "very secure";
@@ -23,7 +23,7 @@ Deno.test("PastaPacker - happy pass with encryption", async () => {
 });
 
 Deno.test("PastaPacker - happy pass without encryption", async () => {
-  const packer = new PastaPacker(new AES(), new BrotliCompressor());
+  const packer = new PastaPacker(new BrotliCompressor(), new AES());
   const author = "John Doe";
   const text = 'Hello, Мир!"№;%:?*()';
   const key = "very secure";
@@ -41,7 +41,7 @@ Deno.test("PastaPacker - happy pass without encryption", async () => {
 });
 
 Deno.test("PastaPacker - incorrect key", async () => {
-  const packer = new PastaPacker(new AES(), new BrotliCompressor());
+  const packer = new PastaPacker(new BrotliCompressor(), new AES());
   const author = "John Doe";
   const text = "Hello, Мир!";
   const key = "very secure";
@@ -54,7 +54,7 @@ Deno.test("PastaPacker - incorrect key", async () => {
 });
 
 Deno.test("PaastaPacker - missing key", async () => {
-  const packer = new PastaPacker(new AES(), new BrotliCompressor());
+  const packer = new PastaPacker(new BrotliCompressor(), new AES());
   const author = "John Doe";
   const text = "Hello, Мир!";
   const key = "very secure";

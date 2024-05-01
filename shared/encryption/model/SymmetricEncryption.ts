@@ -1,10 +1,11 @@
 import type { Nullable } from "decorate";
+import { EncryptorName } from "shared/encryption/model/Encryptors.ts";
 
 /**
  * Symmetric encryption. Must work in browser and Deno runtime.
  */
 export interface SymmetricEncryption {
-  readonly name: string;
+  readonly name: EncryptorName;
 
   /**
    * Encrypt data string with encryption key

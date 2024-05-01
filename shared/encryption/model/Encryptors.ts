@@ -13,3 +13,9 @@ export const encryptors = [
 export const encryptionNames = encryptors.map((encryptor) => encryptor.name);
 
 export type EncryptorName = typeof encryptionNames[number];
+
+const validationSet = new Set<unknown>(encryptionNames);
+
+export const isEncryptionName = (value: unknown): value is EncryptorName => {
+  return validationSet.has(value);
+};

@@ -14,7 +14,12 @@ export default function TopBar(
     <div className="flex flex-1 items-center justify-between flex-nowrap h-12 min-h-12 bg-gray-500 pl-2 pr-2">
       <TopBarTitle title="Pasta♾️" />
       <div className="flex shrink h-full">
-        <TopBarButton title="Help" onClick={() => {}} />
+        <TopBarButton
+          title="Help"
+          onClick={() => {
+            alert("Invoked");
+          }}
+        />
         <TopBarButton title="Share" onClick={showShareDialog} />
       </div>
     </div>
