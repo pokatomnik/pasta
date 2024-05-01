@@ -60,6 +60,9 @@ export const ShareBottomSheet = (
           </span>
           <PastaPackerSelector state={packerSelectState} />
         </label>
+        {!packerSelectState.value && (
+          <p>When no encryption is selected, note will be saved unencrypted</p>
+        )}
         <form
           onSubmit={handleSubmit}
           id="share-pasta"
