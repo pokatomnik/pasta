@@ -68,7 +68,7 @@ export const ShareBottomSheet = (
       </div>
       <div
         className={cn(
-          "flex flex-1 w-[200%] transition-transform",
+          "flex flex-1 w-[200%] transition-transform min-h-0",
           {
             "translate-x-0": !sharedLinkState.value,
             "-translate-x-1/2": Boolean(sharedLinkState.value),
