@@ -75,7 +75,7 @@ export const ShareBottomSheet = (
           },
         )}
       >
-        <div className="m-4 flex flex-1 basis-full flex-col overflow-x-hidden overflow-y-auto">
+        <div className="m-4 flex flex-1 basis-full flex-col overflow-x-hidden overflow-y-auto pr-px pl-px">
           <label className="flex flex-col mb-4">
             <span className="text-md text-gray-900 mb-2">
               Choose encryption variant
@@ -129,7 +129,7 @@ export const ShareBottomSheet = (
             </label>
           </form>
         </div>
-        <div className="m-4 flex flex-1 basis-full flex-col overflow-x-hidden overflow-y-auto">
+        <div className="m-4 flex flex-1 basis-full flex-col overflow-x-hidden overflow-y-auto pr-px pl-px">
           done
         </div>
       </div>
