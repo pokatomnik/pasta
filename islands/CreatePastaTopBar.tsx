@@ -5,7 +5,7 @@ import { BottomSheetDialog } from "shared/BottomSheet/ui/BottomSheetDialog.tsx";
 import { TopBar as TopBarComponent } from "shared/TopBar/TopBar.tsx";
 import { TopBarButton as TopBarButtonComponent } from "shared/TopBar/TopBarButton.tsx";
 
-export default function TopBar(
+export default function CreatePastaTopBar(
   props: Readonly<{
     textSignal: Signal<string>;
     shareSignal: Signal<boolean>;
