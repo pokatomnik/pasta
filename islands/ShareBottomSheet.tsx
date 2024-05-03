@@ -63,7 +63,9 @@ export const ShareBottomSheet = (
 
   const handleCopy = useCallback(() => {
     if (sharedLinkState.value) {
-      copyText(window.location.origin.concat(sharedLinkState.value));
+      copyText(
+        window.location.origin.concat(makeUrlFromPacked(sharedLinkState.value)),
+      );
     }
   }, []);
 
@@ -91,7 +93,7 @@ export const ShareBottomSheet = (
         // todo display error here
         return;
       }
-      sharedLinkState.value = makeUrlFromPacked(packed);
+      sharedLinkState.value = packed;
     },
     [],
   );
@@ -207,7 +209,7 @@ export const ShareBottomSheet = (
           <p>
             <a
               className="text-blue-500 underline"
-              href={sharedLinkState.value}
+              href={makeUrlFromPacked(sharedLinkState.value)}
               target="_blank"
             >
               Navigate to your pasta
@@ -239,5 +241,5 @@ async function packData(
 }
 
 function makeUrlFromPacked(packed: string) {
-  return `/view?packed=${packed}`;
+  return `/view#packed=${packed}`;
 }
