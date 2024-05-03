@@ -1,10 +1,10 @@
 import { JSX } from "preact/jsx-runtime";
-import { TopBarTitle } from "shared/TopBar/TopBarTitle.tsx";
+import { TopBarTitle } from "shared/TopBar/ui/TopBarTitle.tsx";
 
 export const TopBar = (
   props: Readonly<{
     title: string;
-    children: JSX.Element | ReadonlyArray<JSX.Element>;
+    children?: JSX.Element | ReadonlyArray<JSX.Element>;
   }>,
 ) => {
   const { children, title } = props;

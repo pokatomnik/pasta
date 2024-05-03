@@ -1,11 +1,15 @@
-import { BrotliCompressor } from "shared/compression/model/BrotliCompressor.ts";
-import { AES } from "shared/encryption/model/AES.ts";
-import { PastaPacker } from "entities/Pasta/model/PastaPacker.ts";
-import { assertNotEquals } from "$std/assert/assert_not_equals.ts";
 import { assertEquals } from "$std/assert/assert_equals.ts";
+import { assertNotEquals } from "$std/assert/assert_not_equals.ts";
+import {
+  decompress,
+  decrypt,
+  PastaPacker,
+} from "entities/Pasta/model/PastaPacker.ts";
+import { AES } from "shared/encryption/model/AES.ts";
 
 Deno.test("PastaPacker - happy pass with encryption", async () => {
-  const packer = new PastaPacker(new BrotliCompressor(), new AES());
+  const encryption = new AES();
+  const packer = new PastaPacker(encryption);
   const author = "John Doe";
   const text = 'Hello, Мир!"№;%:?*(';
   const key = "very secure";
@@ -13,11 +17,11 @@ Deno.test("PastaPacker - happy pass with encryption", async () => {
   if (!packed) {
     return assertNotEquals(packed, null);
   }
-  const unpacked = await packer.decompress(packed);
+  const unpacked = await decompress(packed);
   if (!unpacked) {
     return assertNotEquals(packed, null);
   }
-  const decrypted = await packer.decrypt(unpacked, key);
+  const decrypted = await decrypt(encryption, unpacked, key);
   if (!decrypted) {
     return assertNotEquals(decrypted, null);
   }
@@ -27,7 +31,8 @@ Deno.test("PastaPacker - happy pass with encryption", async () => {
 });
 
 Deno.test("PastaPacker - happy pass without encryption", async () => {
-  const packer = new PastaPacker(new BrotliCompressor(), new AES());
+  const encryption = new AES();
+  const packer = new PastaPacker(encryption);
   const author = "John Doe";
   const text = 'Hello, Мир!"№;%:?*()';
   const key = "very secure";
@@ -35,11 +40,11 @@ Deno.test("PastaPacker - happy pass without encryption", async () => {
   if (!packed) {
     return assertNotEquals(packed, null);
   }
-  const unpacked = await packer.decompress(packed);
+  const unpacked = await decompress(packed);
   if (!unpacked) {
     return assertNotEquals(packed, null);
   }
-  const decrypted = await packer.decrypt(unpacked, key);
+  const decrypted = await decrypt(encryption, unpacked, key);
   if (!decrypted) {
     return assertNotEquals(decrypted, null);
   }
@@ -49,7 +54,8 @@ Deno.test("PastaPacker - happy pass without encryption", async () => {
 });
 
 Deno.test("PastaPacker - incorrect key", async () => {
-  const packer = new PastaPacker(new BrotliCompressor(), new AES());
+  const encryption = new AES();
+  const packer = new PastaPacker(encryption);
   const author = "John Doe";
   const text = "Hello, Мир!";
   const key = "very secure";
@@ -57,16 +63,17 @@ Deno.test("PastaPacker - incorrect key", async () => {
   if (!packed) {
     return assertNotEquals(packed, null);
   }
-  const unpacked = await packer.decompress(packed);
+  const unpacked = await decompress(packed);
   if (!unpacked) {
     return assertNotEquals(unpacked, null);
   }
-  const decrypted = await packer.decrypt(unpacked, "another key");
+  const decrypted = await decrypt(encryption, unpacked, "another key");
   assertEquals(decrypted, null);
 });
 
 Deno.test("PaastaPacker - missing key", async () => {
-  const packer = new PastaPacker(new BrotliCompressor(), new AES());
+  const encryption = new AES();
+  const packer = new PastaPacker(encryption);
   const author = "John Doe";
   const text = "Hello, Мир!";
   const key = "very secure";
@@ -74,10 +81,10 @@ Deno.test("PaastaPacker - missing key", async () => {
   if (!packed) {
     return assertNotEquals(packed, null);
   }
-  const unpacked = await packer.decompress(packed);
+  const unpacked = await decompress(packed);
   if (!unpacked) {
     return assertNotEquals(unpacked, null);
   }
-  const decrypted = await packer.decrypt(unpacked, "");
+  const decrypted = await decrypt(encryption, unpacked, "");
   assertEquals(decrypted, null);
 });

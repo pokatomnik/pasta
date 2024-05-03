@@ -2,8 +2,8 @@ import { Signal, useSignal } from "@preact/signals";
 import { useCallback } from "preact/hooks";
 import { Button } from "shared/Button/ui/Button.tsx";
 import { BottomSheetDialog } from "shared/BottomSheet/ui/BottomSheetDialog.tsx";
-import { TopBar as TopBarComponent } from "shared/TopBar/TopBar.tsx";
-import { TopBarButton as TopBarButtonComponent } from "shared/TopBar/TopBarButton.tsx";
+import { TopBar as TopBarComponent } from "shared/TopBar/ui/TopBar.tsx";
+import { TopBarButton as TopBarButtonComponent } from "shared/TopBar/ui/TopBarButton.tsx";
 
 export default function CreatePastaTopBar(
   props: Readonly<{

@@ -20,17 +20,15 @@ export const Editor = (
   );
 
   return (
-    <>
-      <textarea
-        placeholder={placeholder}
-        className={cn(
-          "flex flex-1 basis-full resize-none outline-none border-none font-mono",
-          className,
-        )}
-        onInput={handleInput}
-      >
-        {text}
-      </textarea>
-    </>
+    <textarea
+      placeholder={placeholder}
+      className={cn(
+        "flex flex-1 basis-full resize-none outline-none border-none font-mono whitespace-pre overflow break-words overflow-x-auto",
+        className,
+      )}
+      onInput={handleInput}
+    >
+      {text}
+    </textarea>
   );
 };
