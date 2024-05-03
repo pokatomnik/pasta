@@ -13,6 +13,7 @@ import {
   PastaPacker,
 } from "entities/Pasta/model/PastaPacker.ts";
 import { copyText } from "shared/clipboard/model/copy.ts";
+import { OrDivider } from "shared/OrDivider/ui/OrDivider.tsx";
 
 const DEFAULT_AUTHOR = "John Doe";
 
@@ -221,17 +222,6 @@ export const ShareBottomSheet = (
         </div>
       </div>
     </BottomSheetDialog>
-  );
-};
-
-const OrDivider = (props: Readonly<{ children: JSX.Element }>) => {
-  const { children } = props;
-  return (
-    <div className="flex gap-1 flex-nowrap items-center w-full justify-center mt-2 mb-2">
-      <hr className="border-t-2 flex basis-full" />
-      {children}
-      <hr className="border-t-2 flex basis-full" />
-    </div>
   );
 };
 
