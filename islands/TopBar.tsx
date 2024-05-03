@@ -1,28 +1,58 @@
-import { Signal } from "@preact/signals";
+import { Signal, useSignal } from "@preact/signals";
 import { useCallback } from "preact/hooks";
+import { Button } from "shared/Button/ui/Button.tsx";
+import { BottomSheetDialog } from "shared/BottomSheet/ui/BottomSheetDialog.tsx";
 
 export default function TopBar(
   props: Readonly<{
+    textSignal: Signal<string>;
     shareSignal: Signal<boolean>;
   }>,
 ) {
-  const { shareSignal } = props;
+  const { shareSignal, textSignal } = props;
+  const errorDisplayed = useSignal(false);
+
   const showShareDialog = useCallback(() => {
-    shareSignal.value = true;
-  }, [shareSignal]);
+    if (textSignal.value) {
+      shareSignal.value = true;
+    } else {
+      errorDisplayed.value = true;
+    }
+  }, []);
+
+  const hideError = useCallback(() => {
+    errorDisplayed.value = false;
+  }, []);
+
   return (
-    <div className="flex flex-1 items-center justify-between flex-nowrap h-12 min-h-12 bg-gray-500 pl-2 pr-2">
-      <TopBarTitle title="Pasta♾️" />
-      <div className="flex shrink h-full">
-        <TopBarButton
-          title="Help"
-          onClick={() => {
-            alert("Invoked");
-          }}
-        />
-        <TopBarButton title="Share" onClick={showShareDialog} />
+    <>
+      <div className="flex flex-1 items-center justify-between flex-nowrap h-12 min-h-12 bg-gray-500 pl-2 pr-2">
+        <TopBarTitle title="Pasta♾️" />
+        <div className="flex shrink h-full">
+          <TopBarButton
+            title="Help"
+            onClick={() => {
+              alert("Invoked");
+            }}
+          />
+          <TopBarButton title="Share" onClick={showShareDialog} />
+        </div>
       </div>
-    </div>
+      <BottomSheetDialog
+        position="bp25"
+        visibility={errorDisplayed}
+        title="Oops!"
+        buttons={
+          <Button type="button" buttonType="primary" onClick={hideError}>
+            Got It!
+          </Button>
+        }
+      >
+        <div className="m-4 flex flex-1 basis-full flex-col overflow-x-hidden overflow-y-auto">
+          Nothing to share, textfield seems to be empty
+        </div>
+      </BottomSheetDialog>
+    </>
   );
 }
 

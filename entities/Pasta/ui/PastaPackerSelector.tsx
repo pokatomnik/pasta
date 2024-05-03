@@ -37,13 +37,19 @@ export const PastaPackerSelector = (
       required
     >
       <optgroup label="Without encryption">
-        <option value={packerWithoutEncryption.encryptionName ?? undefined}>
+        <option
+          selected={!packerWithoutEncryption.encryptionName}
+          value={packerWithoutEncryption.encryptionName ?? undefined}
+        >
           Just share
         </option>
       </optgroup>
       <optgroup label="With encryption">
         {packersWithEncryption.map((packer) => (
-          <option value={packer.encryptionName ?? undefined}>
+          <option
+            selected={state.value === packer.encryptionName}
+            value={packer.encryptionName ?? undefined}
+          >
             {packer.encryptionName}
           </option>
         ))}

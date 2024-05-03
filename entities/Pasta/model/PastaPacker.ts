@@ -53,9 +53,8 @@ export class PastaPacker {
     }
   }
 
-  public async unpack(
+  public async decompress(
     dataBase64: string,
-    key: Nullable<string> = null,
   ): Promise<Nullable<Pasta>> {
     let unpacked: Nullable<string> = null;
 
@@ -87,13 +86,16 @@ export class PastaPacker {
       return null;
     }
 
+    return {
+      a: pasta.a,
+      e: pasta.e,
+      d: decompressed,
+    };
+  }
+
+  public async decrypt(pasta: Pasta, key: string): Promise<Nullable<Pasta>> {
     if (!pasta.e) {
-      const actualPasta: Pasta = {
-        a: pasta.a,
-        e: false,
-        d: decompressed,
-      };
-      return actualPasta;
+      return pasta;
     }
 
     if (pasta.e && !key) {
@@ -101,7 +103,7 @@ export class PastaPacker {
     }
 
     if (pasta.e && key && this.encryption) {
-      const decrypted = await this.encryption.decrypt(decompressed, key);
+      const decrypted = await this.encryption.decrypt(pasta.d, key);
 
       if (!decrypted) {
         return null;

@@ -13,13 +13,17 @@ Deno.test("PastaPacker - happy pass with encryption", async () => {
   if (!packed) {
     return assertNotEquals(packed, null);
   }
-  const unpacked = await packer.unpack(packed, key);
+  const unpacked = await packer.decompress(packed);
   if (!unpacked) {
     return assertNotEquals(packed, null);
   }
-  assertEquals(unpacked.a, author);
-  assertEquals(unpacked.d, text);
-  assertEquals(unpacked.e, true);
+  const decrypted = await packer.decrypt(unpacked, key);
+  if (!decrypted) {
+    return assertNotEquals(decrypted, null);
+  }
+  assertEquals(decrypted.a, author);
+  assertEquals(decrypted.d, text);
+  assertEquals(decrypted.e, true);
 });
 
 Deno.test("PastaPacker - happy pass without encryption", async () => {
@@ -31,9 +35,13 @@ Deno.test("PastaPacker - happy pass without encryption", async () => {
   if (!packed) {
     return assertNotEquals(packed, null);
   }
-  const unpacked = await packer.unpack(packed, key);
+  const unpacked = await packer.decompress(packed);
   if (!unpacked) {
     return assertNotEquals(packed, null);
+  }
+  const decrypted = await packer.decrypt(unpacked, key);
+  if (!decrypted) {
+    return assertNotEquals(decrypted, null);
   }
   assertEquals(unpacked.a, author);
   assertEquals(unpacked.d, text);
@@ -49,8 +57,12 @@ Deno.test("PastaPacker - incorrect key", async () => {
   if (!packed) {
     return assertNotEquals(packed, null);
   }
-  const unpacked = await packer.unpack(packed, "another key");
-  assertEquals(unpacked, null);
+  const unpacked = await packer.decompress(packed);
+  if (!unpacked) {
+    return assertNotEquals(unpacked, null);
+  }
+  const decrypted = await packer.decrypt(unpacked, "another key");
+  assertEquals(decrypted, null);
 });
 
 Deno.test("PaastaPacker - missing key", async () => {
@@ -62,6 +74,10 @@ Deno.test("PaastaPacker - missing key", async () => {
   if (!packed) {
     return assertNotEquals(packed, null);
   }
-  const unpacked = await packer.unpack(packed);
-  assertEquals(unpacked, null);
+  const unpacked = await packer.decompress(packed);
+  if (!unpacked) {
+    return assertNotEquals(unpacked, null);
+  }
+  const decrypted = await packer.decrypt(unpacked, "");
+  assertEquals(decrypted, null);
 });
