@@ -30,8 +30,12 @@ export const BottomSheet = (
   }, [visibility.value, backdropVisible]);
 
   const hideShareDialog = useCallback(() => {
-    visibility.value = false;
-  }, [visibility]);
+    try {
+      visibility.value = false;
+    } catch {
+      // noop, tried to update readonly state, seems to be intentional
+    }
+  }, []);
 
   const handleTransitionEnd = useCallback(() => {
     if (!visibility.value) {
@@ -42,12 +46,12 @@ export const BottomSheet = (
   useEffect(() => {
     const listener = (evt: KeyboardEvent) => {
       if (evt.key === "Escape") {
-        visibility.value = false;
+        hideShareDialog();
       }
     };
     globalThis.document.addEventListener("keydown", listener);
     return () => globalThis.document.removeEventListener("keydown", listener);
-  }, []);
+  }, [hideShareDialog]);
 
   return (
     <>

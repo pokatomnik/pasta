@@ -14,9 +14,10 @@ import {
 export const PastaPackerSelector = (
   props: Readonly<{
     state: Signal<Nullable<EncryptorName>>;
+    hideUnEncrypted?: boolean;
   }>,
 ) => {
-  const { state } = props;
+  const { state, hideUnEncrypted } = props;
   const handleChange: JSX.GenericEventHandler<HTMLSelectElement> = useCallback(
     (evt) => {
       const newEncryptionName = evt.currentTarget.value;
@@ -29,6 +30,19 @@ export const PastaPackerSelector = (
     [],
   );
 
+  const encryptionItemsJSX = (
+    <>
+      {packersWithEncryption.map((packer) => (
+        <option
+          selected={state.value === packer.encryptionName}
+          value={packer.encryptionName ?? undefined}
+        >
+          {packer.encryptionName}
+        </option>
+      ))}
+    </>
+  );
+
   return (
     <select
       value={state.value ?? undefined}
@@ -36,24 +50,22 @@ export const PastaPackerSelector = (
       className="h-9 border-2 p-1 bg-white"
       required
     >
-      <optgroup label="Without encryption">
-        <option
-          selected={!packerWithoutEncryption.encryptionName}
-          value={packerWithoutEncryption.encryptionName ?? undefined}
-        >
-          Just share
-        </option>
-      </optgroup>
-      <optgroup label="With encryption">
-        {packersWithEncryption.map((packer) => (
-          <option
-            selected={state.value === packer.encryptionName}
-            value={packer.encryptionName ?? undefined}
-          >
-            {packer.encryptionName}
-          </option>
-        ))}
-      </optgroup>
+      {!hideUnEncrypted && (
+        <>
+          <optgroup label="Without encryption">
+            <option
+              selected={!packerWithoutEncryption.encryptionName}
+              value={packerWithoutEncryption.encryptionName ?? undefined}
+            >
+              Just share
+            </option>
+          </optgroup>
+          <optgroup label="With encryption">
+            {encryptionItemsJSX}
+          </optgroup>
+        </>
+      )}
+      {hideUnEncrypted && encryptionItemsJSX}
     </select>
   );
 };
