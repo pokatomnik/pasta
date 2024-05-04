@@ -54,6 +54,16 @@ export const BottomSheet = (
   return (
     <>
       <div
+        className={cn(
+          "fixed top-0 right-0 bottom-0 left-0 transition-all duration-300",
+          {
+            "pointer-events-none": !backdropVisible.value,
+            "backdrop-blur-0": !visibility.value,
+            "backdrop-blur-sm": visibility.value,
+          },
+        )}
+      />
+      <div
         onClick={hideDialog}
         className={cn(
           "fixed top-0 right-0 bottom-0 left-0 bg-black transition-all duration-300",
