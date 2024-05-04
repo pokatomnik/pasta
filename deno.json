@@ -28,13 +28,14 @@
     "$std/": "https://deno.land/std@0.216.0/",
     "testing": "https://deno.land/std@0.216.0/testing/asserts.ts",
     "decorate": "https://deno.land/x/decorate@1.1.0/mod.ts",
-    "crypto/": "https://deno.land/x/crypto@v0.10.1/",
     "textcompress": "https://deno.land/x/textcompress@v1.0.0/mod.ts",
     "crypto-js": "./shared/encryption/crypto-js.ts",
     "highlight.js": "npm:highlight.js@11.9.0",
+    "microdi": "https://deno.land/x/microdi@v1.0.0/mod.ts",
     "shared/": "./shared/",
     "entities/": "./entities/",
-    "islands/": "./islands/"
+    "islands/": "./islands/",
+    "services/": "./services/"
   },
   "compilerOptions": {
     "jsx": "react-jsx",
@@ -48,7 +49,8 @@
     "noImplicitThis": true,
     "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "experimentalDecorators": false
   },
   "nodeModulesDir": true
 }
