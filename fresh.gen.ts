@@ -13,6 +13,7 @@ import * as $Editor_ui_Editor from "./islands/Editor/ui/Editor.tsx";
 import * as $ShareBottomSheet_model_pack from "./islands/ShareBottomSheet/model/pack.ts";
 import * as $ShareBottomSheet_ui_ShareBottomSheet from "./islands/ShareBottomSheet/ui/ShareBottomSheet.tsx";
 import * as $ViewPastaTopBar_ui_ViewPastaTopBar from "./islands/ViewPastaTopBar/ui/ViewPastaTopBar.tsx";
+import * as $Viewer_model_getDecompressedDataFromHash from "./islands/Viewer/model/getDecompressedDataFromHash.ts";
 import * as $Viewer_ui_Viewer from "./islands/Viewer/ui/Viewer.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
@@ -34,6 +35,8 @@ const manifest = {
       $ShareBottomSheet_ui_ShareBottomSheet,
     "./islands/ViewPastaTopBar/ui/ViewPastaTopBar.tsx":
       $ViewPastaTopBar_ui_ViewPastaTopBar,
+    "./islands/Viewer/model/getDecompressedDataFromHash.ts":
+      $Viewer_model_getDecompressedDataFromHash,
     "./islands/Viewer/ui/Viewer.tsx": $Viewer_ui_Viewer,
   },
   baseUrl: import.meta.url,
