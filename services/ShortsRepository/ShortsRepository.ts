@@ -6,7 +6,7 @@ import type {
 
 export interface ShortsRepository {
   getShort(
-    sha3: string,
+    hash: string,
   ): Promise<Nullable<string> | ShortsDatabaseError>;
   addShort(
     data: string,

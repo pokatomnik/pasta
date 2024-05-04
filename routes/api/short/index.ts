@@ -47,7 +47,7 @@ export const handler: Handlers = {
 
     if (typeof hashInsertionResult === "string") {
       return getJSONResponse(
-        getOkResponseObject({ data: hashInsertionResult }),
+        getOkResponseObject(hashInsertionResult),
         200,
       );
     }

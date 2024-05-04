@@ -4,6 +4,7 @@
 
 import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
+import * as $api_short_hash_ from "./routes/api/short/[hash].ts";
 import * as $api_short_index from "./routes/api/short/index.ts";
 import * as $index from "./routes/index.tsx";
 import * as $view from "./routes/view.tsx";
@@ -18,6 +19,7 @@ const manifest = {
   routes: {
     "./routes/_404.tsx": $_404,
     "./routes/_app.tsx": $_app,
+    "./routes/api/short/[hash].ts": $api_short_hash_,
     "./routes/api/short/index.ts": $api_short_index,
     "./routes/index.tsx": $index,
     "./routes/view.tsx": $view,
