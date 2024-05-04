@@ -14,16 +14,21 @@ import {
 } from "entities/Pasta/model/PastaPacker.ts";
 import { copyText } from "shared/clipboard/model/copy.ts";
 import { OrDivider } from "shared/OrDivider/ui/OrDivider.tsx";
+import {
+  useToastContext,
+  withToastController,
+} from "shared/Toast/ui/ToastController.tsx";
 
 const DEFAULT_AUTHOR = "John Doe";
 
-export const ShareBottomSheet = (
+export const ShareBottomSheet = withToastController((
   props: Readonly<{
     unpacked: Signal<string>;
     visibility: Signal<boolean>;
   }>,
 ) => {
   const { visibility, unpacked } = props;
+  const showToast = useToastContext();
 
   const pastaAuthorState = useSignal(DEFAULT_AUTHOR);
   const packerSelectState = useSignal<Nullable<EncryptorName>>(null);
@@ -90,7 +95,7 @@ export const ShareBottomSheet = (
         encryptionKeyState.value,
       );
       if (!packed) {
-        // todo display error here
+        showToast("Failed to encrypt");
         return;
       }
       sharedLinkState.value = packed;
@@ -137,13 +142,13 @@ export const ShareBottomSheet = (
           onSubmit={handleSubmit}
           className="flex flex-col flex-1"
         >
-          <label className="flex flex-col mb-4">
+          <label className="flex flex-col mb-4 pr-1 pl-2">
             <span className="text-md text-gray-900 mb-2">
               Choose encryption variant
             </span>
             <PastaPackerSelector state={packerSelectState} />
           </label>
-          <label className="flex flex-col mb-4">
+          <label className="flex flex-col mb-4 pr-1 pl-2">
             <span className="text-md text-gray-900 mb-2">
               Author
             </span>
@@ -170,7 +175,7 @@ export const ShareBottomSheet = (
               },
             )}
           >
-            <label className="flex flex-1 flex-col">
+            <label className="flex flex-1 flex-col  pr-1 pl-2">
               <span className="text-md text-gray-900 mb-2">
                 Encryption key
               </span>
@@ -183,7 +188,7 @@ export const ShareBottomSheet = (
                 onInput={handleSetEncryptionKey}
               />
             </label>
-            <label className="flex flex-1 flex-col">
+            <label className="flex flex-1 flex-col  pr-1 pl-2">
               <span className="text-md text-gray-900 mb-2">
                 Confirm
               </span>
@@ -225,7 +230,7 @@ export const ShareBottomSheet = (
       </div>
     </BottomSheetDialog>
   );
-};
+});
 
 async function packData(
   author: string,

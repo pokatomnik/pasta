@@ -13,6 +13,10 @@ import {
   EncryptorName,
   encryptorsMap,
 } from "shared/encryption/model/Encryptors.ts";
+import {
+  useToastContext,
+  withToastController,
+} from "shared/Toast/ui/ToastController.tsx";
 
 async function getDecompressedDataFromHash(): Promise<Nullable<Pasta>> {
   const hash = window.location.hash;
@@ -37,13 +41,14 @@ async function getDecompressedDataFromHash(): Promise<Nullable<Pasta>> {
   return await decompress(packed);
 }
 
-export default function Viewer(
-  props: Readonly<{
+export default withToastController<
+  Readonly<{
     data: Signal<Nullable<Pasta>>;
-  }>,
-) {
+  }>
+>(function Viewer(props) {
   const { data } = props;
 
+  const showToast = useToastContext();
   const needDecrypt = useComputed(() => Boolean(data.value?.e));
   const decryptKeyState = useSignal("");
   const algorythmSelectState = useSignal<Nullable<EncryptorName>>(
@@ -74,12 +79,12 @@ export default function Viewer(
         decryptKeyState.value,
       );
       if (!decrypted) {
-        // TODO show error
+        showToast("Failed to decrypt");
         return;
       }
       data.value = { a: data.value.a, d: decrypted, e: false };
     },
-    [],
+    [showToast],
   );
 
   const handleDecryptStateInput: JSX.InputEventHandler<HTMLInputElement> =
@@ -109,16 +114,16 @@ export default function Viewer(
             onSubmit={handleDecrypt}
             className="flex flex-col flex-1"
           >
-            <label className="flex flex-col mb-4">
+            <label className="flex flex-col mb-4 pr-1 pl-2">
               <span className="text-md text-gray-900 mb-2">
-                Choose encryption variant
+                Select algorithm
               </span>
               <PastaPackerSelector
                 hideUnEncrypted
                 state={algorythmSelectState}
               />
             </label>
-            <label className="flex flex-col mb-4">
+            <label className="flex flex-col mb-4 pr-1 pl-2">
               <span className="text-md text-gray-900 mb-2">
                 Decryption key
               </span>
@@ -136,4 +141,4 @@ export default function Viewer(
       </BottomSheetDialog>
     </>
   );
-}
+});
