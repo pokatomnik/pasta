@@ -29,7 +29,7 @@ export default withToastController(function ToastControllerViewPastaTopBar(
   }, [showToast]);
 
   return (
-    <TopBarComponent title={pastaSignal.value?.a ?? ""}>
+    <TopBarComponent title={pastaSignal.value?.n ?? ""}>
       {pastaSignal.value && !pastaSignal.value.e
         ? <TopBarButton onClick={handleClick}>Copy</TopBarButton>
         : <></>}

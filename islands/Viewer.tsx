@@ -82,7 +82,7 @@ export default withToastController<
         showToast("Failed to decrypt");
         return;
       }
-      data.value = { a: data.value.a, d: decrypted, e: false };
+      data.value = { n: data.value.n, d: decrypted, e: false };
     },
     [showToast],
   );
@@ -104,7 +104,7 @@ export default withToastController<
         position="bp50"
         buttons={
           <Button type="submit" buttonType="primary" form="decrypt-pasta">
-            Got It!
+            Decrypt
           </Button>
         }
       >

@@ -19,7 +19,7 @@ import {
   withToastController,
 } from "shared/Toast/ui/ToastController.tsx";
 
-const DEFAULT_AUTHOR = "John Doe";
+const DEFAULT_NOTE_NAME = "My new note";
 
 export const ShareBottomSheet = withToastController((
   props: Readonly<{
@@ -30,7 +30,7 @@ export const ShareBottomSheet = withToastController((
   const { visibility, unpacked } = props;
   const showToast = useToastContext();
 
-  const pastaAuthorState = useSignal(DEFAULT_AUTHOR);
+  const noteNameState = useSignal(DEFAULT_NOTE_NAME);
   const packerSelectState = useSignal<Nullable<EncryptorName>>(null);
   const encryptionKeyState = useSignal("");
   const encryptionRepeatKeyState = useSignal("");
@@ -40,7 +40,7 @@ export const ShareBottomSheet = withToastController((
 
   useEffect(() => {
     if (!visibility.value) {
-      pastaAuthorState.value = DEFAULT_AUTHOR;
+      noteNameState.value = DEFAULT_NOTE_NAME;
       packerSelectState.value = null;
       encryptionKeyState.value = "";
       encryptionRepeatKeyState.value = "";
@@ -49,10 +49,10 @@ export const ShareBottomSheet = withToastController((
     }
   }, [visibility.value]);
 
-  const handleSetPastaAuthor: JSX.InputEventHandler<HTMLInputElement> =
+  const handleSetPastaName: JSX.InputEventHandler<HTMLInputElement> =
     useCallback((evt) => {
-      pastaAuthorState.value = evt.currentTarget.value;
-    }, [pastaAuthorState]);
+      noteNameState.value = evt.currentTarget.value;
+    }, [noteNameState]);
 
   const handleSetEncryptionKey: JSX.InputEventHandler<HTMLInputElement> =
     useCallback((evt) => {
@@ -93,7 +93,7 @@ export const ShareBottomSheet = withToastController((
           packerWithoutEncryption
         : packerWithoutEncryption;
       const packed = await packData(
-        pastaAuthorState.value,
+        noteNameState.value,
         unpacked.value,
         packer,
         encryptionKeyState.value,
@@ -154,15 +154,15 @@ export const ShareBottomSheet = withToastController((
           </label>
           <label className="flex flex-col mb-4 pr-1 pl-2">
             <span className="text-md text-gray-900 mb-2">
-              Author
+              Note name
             </span>
             <input
               type="text"
               required
-              value={pastaAuthorState.value}
-              placeholder={DEFAULT_AUTHOR}
+              value={noteNameState.value}
+              placeholder={DEFAULT_NOTE_NAME}
               className="w-full h-9 border-2 p-1"
-              onInput={handleSetPastaAuthor}
+              onInput={handleSetPastaName}
             />
           </label>
           {!packerSelectState.value && (
@@ -237,13 +237,13 @@ export const ShareBottomSheet = withToastController((
 });
 
 async function packData(
-  author: string,
+  noteName: string,
   unpacked: string,
   packer: PastaPacker,
   encryptionKey: Nullable<string>,
 ): Promise<Nullable<string>> {
   return await packer.pack({
-    a: author,
+    n: noteName,
     d: unpacked,
     e: Boolean(encryptionKey),
   }, encryptionKey);

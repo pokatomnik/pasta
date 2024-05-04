@@ -10,10 +10,10 @@ import { AES } from "shared/encryption/model/AES.ts";
 Deno.test("PastaPacker - happy pass with encryption", async () => {
   const encryption = new AES();
   const packer = new PastaPacker(encryption);
-  const author = "John Doe";
+  const noteName = "My new note";
   const text = 'Hello, Мир!"№;%:?*(';
   const key = "very secure";
-  const packed = await packer.pack({ a: author, d: text, e: true }, key);
+  const packed = await packer.pack({ n: noteName, d: text, e: true }, key);
   if (!packed) {
     return assertNotEquals(packed, null);
   }
@@ -25,7 +25,7 @@ Deno.test("PastaPacker - happy pass with encryption", async () => {
   if (!decrypted) {
     return assertNotEquals(decrypted, null);
   }
-  assertEquals(decrypted.a, author);
+  assertEquals(decrypted.n, noteName);
   assertEquals(decrypted.d, text);
   assertEquals(decrypted.e, true);
 });
@@ -33,10 +33,10 @@ Deno.test("PastaPacker - happy pass with encryption", async () => {
 Deno.test("PastaPacker - happy pass without encryption", async () => {
   const encryption = new AES();
   const packer = new PastaPacker(encryption);
-  const author = "John Doe";
+  const noteName = "My new note";
   const text = 'Hello, Мир!"№;%:?*()';
   const key = "very secure";
-  const packed = await packer.pack({ a: author, d: text, e: true });
+  const packed = await packer.pack({ n: noteName, d: text, e: true });
   if (!packed) {
     return assertNotEquals(packed, null);
   }
@@ -48,7 +48,7 @@ Deno.test("PastaPacker - happy pass without encryption", async () => {
   if (!decrypted) {
     return assertNotEquals(decrypted, null);
   }
-  assertEquals(unpacked.a, author);
+  assertEquals(unpacked.n, noteName);
   assertEquals(unpacked.d, text);
   assertEquals(unpacked.e, false);
 });
@@ -56,10 +56,10 @@ Deno.test("PastaPacker - happy pass without encryption", async () => {
 Deno.test("PastaPacker - incorrect key", async () => {
   const encryption = new AES();
   const packer = new PastaPacker(encryption);
-  const author = "John Doe";
+  const noteName = "My new note";
   const text = "Hello, Мир!";
   const key = "very secure";
-  const packed = await packer.pack({ a: author, d: text, e: true }, key);
+  const packed = await packer.pack({ n: noteName, d: text, e: true }, key);
   if (!packed) {
     return assertNotEquals(packed, null);
   }
@@ -74,10 +74,10 @@ Deno.test("PastaPacker - incorrect key", async () => {
 Deno.test("PaastaPacker - missing key", async () => {
   const encryption = new AES();
   const packer = new PastaPacker(encryption);
-  const author = "John Doe";
+  const noteName = "New note name";
   const text = "Hello, Мир!";
   const key = "very secure";
-  const packed = await packer.pack({ a: author, d: text, e: true }, key);
+  const packed = await packer.pack({ n: noteName, d: text, e: true }, key);
   if (!packed) {
     return assertNotEquals(packed, null);
   }

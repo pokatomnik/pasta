@@ -15,9 +15,9 @@ export interface Pasta {
   readonly d: string;
 
   /**
-   * Author
+   * Name
    */
-  readonly a: string;
+  readonly n: string;
 }
 
 export interface PastaEntity extends Pasta, ReadonlyEntity {}

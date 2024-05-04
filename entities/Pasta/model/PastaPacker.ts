@@ -40,7 +40,7 @@ export class PastaPacker {
 
     const actualPasta: Pasta = {
       e: Boolean(key),
-      a: pasta.a,
+      n: pasta.n,
       d: data,
     };
 
@@ -73,7 +73,7 @@ export async function decrypt(
       return null;
     }
     const actualPasta: Pasta = {
-      a: pasta.a,
+      n: pasta.n,
       e: true,
       d: decrypted,
     };
@@ -118,7 +118,7 @@ export async function decompress(
   }
 
   return {
-    a: pasta.a,
+    n: pasta.n,
     e: pasta.e,
     d: decompressed,
   };
