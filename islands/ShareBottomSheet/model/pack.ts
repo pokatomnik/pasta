@@ -1,6 +1,6 @@
 import { PastaPacker } from "entities/Pasta/model/PastaPacker.ts";
 import { Nullable } from "decorate";
-import { Response } from "shared/response/model/Protocol.ts";
+import { Response as ProtocolResponse } from "shared/response/model/Protocol.ts";
 
 export async function packData(
   noteName: string,
@@ -20,7 +20,7 @@ export async function sendToCloud(
   unpacked: string,
   packer: PastaPacker,
   encryptionKey: Nullable<string>,
-): Promise<Response<string>> {
+): Promise<ProtocolResponse<string>> {
   const packed = await packData(noteName, unpacked, packer, encryptionKey);
   if (!packed) {
     return {
@@ -29,15 +29,32 @@ export async function sendToCloud(
       error: "REQUEST_ERROR",
     };
   }
-  const response = await fetch("/api/short", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ data: packed }),
-  });
-  const json: Response<string> = await response.json();
-  return json;
+  let response: Nullable<Response> = null;
+  try {
+    response = await fetch("/api/short", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ data: packed }),
+    });
+  } catch {
+    return {
+      status: "error",
+      data: null,
+      error: "REQUEST_ERROR",
+    };
+  }
+  try {
+    const json: ProtocolResponse<string> = await response.json();
+    return json;
+  } catch {
+    return {
+      status: "error",
+      data: null,
+      error: "REQUEST_ERROR",
+    };
+  }
 }
 
 export function makeUrlFromPacked(packed: string) {
