@@ -10,7 +10,6 @@ import { Button } from "shared/Button/ui/Button.tsx";
 import {
   packersWithEncryptionMap,
   packerWithoutEncryption,
-  PastaPacker,
 } from "entities/Pasta/model/PastaPacker.ts";
 import { copyText } from "shared/clipboard/model/copy.ts";
 import { OrDivider } from "shared/OrDivider/ui/OrDivider.tsx";
@@ -18,8 +17,16 @@ import {
   useToastContext,
   withToastController,
 } from "shared/Toast/ui/ToastController.tsx";
+import {
+  makeUrlFromCloud,
+  makeUrlFromPacked,
+  packData,
+  sendToCloud,
+} from "islands/ShareBottomSheet/model/pack.ts";
 
 const DEFAULT_NOTE_NAME = "My new note";
+const SUBMIT_OFFLINE = "submitOffline";
+const SUBMIT_ONLINE = "submitOnline";
 
 export const ShareBottomSheet = withToastController((
   props: Readonly<{
@@ -69,7 +76,7 @@ export const ShareBottomSheet = withToastController((
   const handleCopy = useCallback(() => {
     if (sharedLinkState.value) {
       copyText(
-        window.location.origin.concat(makeUrlFromPacked(sharedLinkState.value)),
+        window.location.origin.concat(sharedLinkState.value),
       ).then(() => {
         showToast("Link copied");
       }).catch(() => {
@@ -92,17 +99,40 @@ export const ShareBottomSheet = withToastController((
         ? packersWithEncryptionMap.get(packerSelectState.value) ??
           packerWithoutEncryption
         : packerWithoutEncryption;
-      const packed = await packData(
-        noteNameState.value,
-        unpacked.value,
-        packer,
-        encryptionKeyState.value,
-      );
-      if (!packed) {
+      const submitter = evt.submitter;
+      if (!(submitter instanceof HTMLButtonElement)) {
+        return;
+      }
+      let packedOrCloudRef: Nullable<string> = null;
+      if (submitter.value === SUBMIT_OFFLINE) {
+        packedOrCloudRef = await packData(
+          noteNameState.value,
+          unpacked.value,
+          packer,
+          encryptionKeyState.value,
+        );
+      }
+      if (submitter.value === SUBMIT_ONLINE) {
+        const response = await sendToCloud(
+          noteNameState.value,
+          unpacked.value,
+          packer,
+          encryptionKeyState.value,
+        );
+        if (response.status === "OK") {
+          packedOrCloudRef = response.data;
+        }
+      }
+      if (!packedOrCloudRef) {
         showToast("Failed to encrypt");
         return;
       }
-      sharedLinkState.value = packed;
+      if (submitter.value === SUBMIT_OFFLINE) {
+        sharedLinkState.value = makeUrlFromPacked(packedOrCloudRef);
+      }
+      if (submitter.value === SUBMIT_ONLINE) {
+        sharedLinkState.value = makeUrlFromCloud(packedOrCloudRef);
+      }
     },
     [showToast],
   );
@@ -124,10 +154,20 @@ export const ShareBottomSheet = withToastController((
         <>
           {!sharedLinkState.value && (
             <>
-              <Button type="submit" form="share-pasta" buttonType="secondary">
+              <Button
+                type="submit"
+                form="share-pasta"
+                buttonType="secondary"
+                value={SUBMIT_OFFLINE}
+              >
                 Share in 💻
               </Button>
-              <Button type="submit" form="share-pasta" buttonType="primary">
+              <Button
+                type="submit"
+                form="share-pasta"
+                buttonType="primary"
+                value={SUBMIT_ONLINE}
+              >
                 Share in ☁️
               </Button>
             </>
@@ -218,7 +258,7 @@ export const ShareBottomSheet = withToastController((
           <p>
             <a
               className="text-blue-500 underline"
-              href={makeUrlFromPacked(sharedLinkState.value)}
+              href={sharedLinkState.value}
               target="_blank"
             >
               Navigate to your pasta
@@ -235,20 +275,3 @@ export const ShareBottomSheet = withToastController((
     </BottomSheetDialog>
   );
 });
-
-async function packData(
-  noteName: string,
-  unpacked: string,
-  packer: PastaPacker,
-  encryptionKey: Nullable<string>,
-): Promise<Nullable<string>> {
-  return await packer.pack({
-    n: noteName,
-    d: unpacked,
-    e: Boolean(encryptionKey),
-  }, encryptionKey);
-}
-
-function makeUrlFromPacked(packed: string) {
-  return `/view#packed=${packed}`;
-}
