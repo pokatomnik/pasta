@@ -10,6 +10,11 @@ export default function App({ Component }: PageProps) {
           href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/default.min.css"
         />
         <title>Pasta♾️</title>
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `body { display: none; }`,
+          }}
+        />
         <link rel="stylesheet" href="/styles.css" />
       </head>
       <body className="overflow-hidden">
