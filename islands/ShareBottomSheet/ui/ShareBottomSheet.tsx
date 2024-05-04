@@ -206,7 +206,7 @@ export const ShareBottomSheet = withToastController((
             />
           </label>
           {!packerSelectState.value && (
-            <p>
+            <p className="pl-1 pr-1">
               When no encryption is selected, note will be saved unencrypted
             </p>
           )}

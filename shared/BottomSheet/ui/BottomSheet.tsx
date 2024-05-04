@@ -2,7 +2,7 @@ import { useCallback, useEffect } from "preact/hooks";
 import { type Signal, useSignal } from "@preact/signals";
 import { JSX } from "preact/jsx-runtime";
 import { cn } from "shared/classnames/model/classnames.ts";
-import { useFocusTrap } from "shared/focustrap/model/useFocusTrap.ts";
+import { useFocusTrap } from "shared/focusTrap/useFocusTrap.ts";
 
 const breakPoints = {
   bp25: "h-1/4",
@@ -21,7 +21,7 @@ export const BottomSheet = (
 ) => {
   const { visibility, position, children } = props;
   const backdropVisible = useSignal(visibility.value);
-  const [trapRef] = useFocusTrap();
+  const focusTrapRef = useFocusTrap(visibility.value);
 
   useEffect(() => {
     if (visibility.value) {
@@ -29,7 +29,7 @@ export const BottomSheet = (
     }
   }, [visibility.value, backdropVisible]);
 
-  const hideShareDialog = useCallback(() => {
+  const hideDialog = useCallback(() => {
     try {
       visibility.value = false;
     } catch {
@@ -46,17 +46,17 @@ export const BottomSheet = (
   useEffect(() => {
     const listener = (evt: KeyboardEvent) => {
       if (evt.key === "Escape") {
-        hideShareDialog();
+        hideDialog();
       }
     };
     globalThis.document.addEventListener("keydown", listener);
     return () => globalThis.document.removeEventListener("keydown", listener);
-  }, [hideShareDialog]);
+  }, [hideDialog]);
 
   return (
     <>
       <div
-        onClick={hideShareDialog}
+        onClick={hideDialog}
         className={cn(
           "fixed top-0 right-0 bottom-0 left-0 bg-black transition-all duration-300",
           {
@@ -67,7 +67,7 @@ export const BottomSheet = (
         )}
       />
       <div
-        ref={trapRef}
+        ref={focusTrapRef}
         role="alertdialog"
         className={cn(
           `flex overflow-hidden box-border bg-gray-50 flex-col left-1/2 right-1/2 -translate-x-1/2 w-full 2xl:w-1/3 xl:w-1/3 lg:w-1/2 md:w-1/2 sm:w-full fixed bottom-0 shadow-2xl transition-all duration-300 rounded-t-2xl ${
