@@ -8,11 +8,11 @@ import * as $api_short_hash_ from "./routes/api/short/[hash].ts";
 import * as $api_short_index from "./routes/api/short/index.ts";
 import * as $index from "./routes/index.tsx";
 import * as $view from "./routes/view.tsx";
-import * as $CreatePastaTopBar from "./islands/CreatePastaTopBar.tsx";
-import * as $Editor from "./islands/Editor.tsx";
-import * as $ShareBottomSheet from "./islands/ShareBottomSheet.tsx";
-import * as $ViewPastaTopBar from "./islands/ViewPastaTopBar.tsx";
-import * as $Viewer from "./islands/Viewer.tsx";
+import * as $CreatePastaTopbar_ui_CreatePastaTopBar from "./islands/CreatePastaTopbar/ui/CreatePastaTopBar.tsx";
+import * as $Editor_ui_Editor from "./islands/Editor/ui/Editor.tsx";
+import * as $ShareBottomSheet_ui_ShareBottomSheet from "./islands/ShareBottomSheet/ui/ShareBottomSheet.tsx";
+import * as $ViewPastaTopBar_ui_ViewPastaTopBar from "./islands/ViewPastaTopBar/ui/ViewPastaTopBar.tsx";
+import * as $Viewer_ui_Viewer from "./islands/Viewer/ui/Viewer.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
 const manifest = {
@@ -25,11 +25,14 @@ const manifest = {
     "./routes/view.tsx": $view,
   },
   islands: {
-    "./islands/CreatePastaTopBar.tsx": $CreatePastaTopBar,
-    "./islands/Editor.tsx": $Editor,
-    "./islands/ShareBottomSheet.tsx": $ShareBottomSheet,
-    "./islands/ViewPastaTopBar.tsx": $ViewPastaTopBar,
-    "./islands/Viewer.tsx": $Viewer,
+    "./islands/CreatePastaTopbar/ui/CreatePastaTopBar.tsx":
+      $CreatePastaTopbar_ui_CreatePastaTopBar,
+    "./islands/Editor/ui/Editor.tsx": $Editor_ui_Editor,
+    "./islands/ShareBottomSheet/ui/ShareBottomSheet.tsx":
+      $ShareBottomSheet_ui_ShareBottomSheet,
+    "./islands/ViewPastaTopBar/ui/ViewPastaTopBar.tsx":
+      $ViewPastaTopBar_ui_ViewPastaTopBar,
+    "./islands/Viewer/ui/Viewer.tsx": $Viewer_ui_Viewer,
   },
   baseUrl: import.meta.url,
 } satisfies Manifest;

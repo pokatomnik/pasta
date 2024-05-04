@@ -1,7 +1,7 @@
 import { useSignal } from "@preact/signals";
 import { Nullable } from "decorate";
-import Viewer from "islands/Viewer.tsx";
-import ViewPastaTopBar from "islands/ViewPastaTopBar.tsx";
+import Viewer from "islands/Viewer/ui/Viewer.tsx";
+import ViewPastaTopBar from "islands/ViewPastaTopBar/ui/ViewPastaTopBar.tsx";
 import { Pasta } from "entities/Pasta/model/Pasta.ts";
 
 export default function View() {

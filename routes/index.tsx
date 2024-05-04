@@ -1,7 +1,7 @@
 import { useSignal } from "@preact/signals";
-import Editor from "islands/Editor.tsx";
-import CreatePastaTopBar from "islands/CreatePastaTopBar.tsx";
-import { ShareBottomSheet } from "islands/ShareBottomSheet.tsx";
+import Editor from "islands/Editor/ui/Editor.tsx";
+import CreatePastaTopBar from "islands/CreatePastaTopbar/ui/CreatePastaTopBar.tsx";
+import { ShareBottomSheet } from "islands/ShareBottomSheet/ui/ShareBottomSheet.tsx";
 
 export default function Home() {
   const textState = useSignal("");
