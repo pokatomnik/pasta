@@ -1,20 +1,42 @@
 import { useEffect, useRef } from "preact/hooks";
 
-const selector =
-  'a[href]:not([disabled]), button:not([disabled]), textarea:not([disabled]), input[type="text"]:not([disabled]), input[type="radio"]:not([disabled]), input[type="checkbox"]:not([disabled]), select:not([disabled])';
+const focusableSelectors: ReadonlyArray<string> = [
+  "a[href]:not([disabled])",
+  "button:not([disabled])",
+  "textarea:not([disabled])",
+  "input:not([disabled])",
+  "select:not([disabled])",
+];
 
-export const useFocusTrap = (enabled: boolean) => {
-  const ref = useRef<HTMLDivElement | null>(null);
+const focusableElementsSelector = focusableSelectors.join(", ");
+
+const focusedElementsSelector = focusableSelectors.map((selector) => {
+  return `${selector}:focus`;
+}).join(", ");
+
+export const useFocusTrap = <TElement extends HTMLElement>(
+  enabled: boolean,
+) => {
+  const ref = useRef<TElement | null>(null);
 
   useEffect(() => {
     const handler = (evt: FocusEvent) => {
       evt.preventDefault();
-      const firstNode = ref.current?.querySelector(selector);
-      if (firstNode && firstNode instanceof HTMLElement) {
-        firstNode.focus();
-      } else {
-        ref.current?.focus();
-      }
+      setTimeout(() => {
+        const atLeastOneNodeIsFocused = Array.from(
+          ref.current?.querySelectorAll(focusedElementsSelector) ??
+            new Array<Element>(),
+        ).length > 0;
+        const firstNode = ref.current?.querySelector(focusableElementsSelector);
+        if (atLeastOneNodeIsFocused) {
+          return;
+        }
+        if (firstNode && firstNode instanceof HTMLElement) {
+          firstNode.focus({ preventScroll: true });
+        } else {
+          ref.current?.focus({ preventScroll: true });
+        }
+      }, 0);
     };
     if (enabled) {
       ref.current?.addEventListener("focusout", handler);

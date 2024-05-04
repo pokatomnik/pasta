@@ -23,6 +23,7 @@ import {
   packData,
   sendToCloud,
 } from "islands/ShareBottomSheet/model/pack.ts";
+import { useFocusTrap } from "shared/focusTrap/useFocusTrap.ts";
 
 const DEFAULT_NOTE_NAME = "My new note";
 const SUBMIT_OFFLINE = "submitOffline";
@@ -39,6 +40,9 @@ export const ShareBottomSheet = withToastController((
 
   const noteNameState = useSignal(DEFAULT_NOTE_NAME);
   const packerSelectState = useSignal<Nullable<EncryptorName>>(null);
+
+  const focusTrapRef = useFocusTrap<HTMLDivElement>(visibility.value);
+
   const encryptionKeyState = useSignal("");
   const encryptionRepeatKeyState = useSignal("");
   const encryptionRepeatKeyErrorState = useSignal("");
@@ -46,7 +50,7 @@ export const ShareBottomSheet = withToastController((
   const sharedLinkState = useSignal("");
 
   useEffect(() => {
-    if (!visibility.value) {
+    if (visibility.value) {
       noteNameState.value = DEFAULT_NOTE_NAME;
       packerSelectState.value = null;
       encryptionKeyState.value = "";
@@ -180,7 +184,10 @@ export const ShareBottomSheet = withToastController((
         </>
       }
     >
-      <div className="m-4 flex flex-1 basis-full flex-col overflow-x-hidden overflow-y-auto">
+      <div
+        ref={focusTrapRef}
+        className="m-4 flex flex-1 basis-full flex-col overflow-x-hidden overflow-y-auto"
+      >
         <form
           id="share-pasta"
           onSubmit={handleSubmit}
@@ -225,6 +232,7 @@ export const ShareBottomSheet = withToastController((
               </span>
               <input
                 type="password"
+                tabIndex={!packerSelectState.value ? -1 : undefined}
                 required={Boolean(packerSelectState.value)}
                 value={encryptionKeyState.value}
                 placeholder="Blah blah"
@@ -238,6 +246,7 @@ export const ShareBottomSheet = withToastController((
               </span>
               <input
                 type="password"
+                tabIndex={!packerSelectState.value ? -1 : undefined}
                 required={Boolean(packerSelectState.value)}
                 value={encryptionRepeatKeyState.value}
                 placeholder="Repeat here"
@@ -257,6 +266,7 @@ export const ShareBottomSheet = withToastController((
           <p>Now you can:</p>
           <p>
             <a
+              tabIndex={!sharedLinkState.value ? -1 : undefined}
               className="text-blue-500 underline"
               href={sharedLinkState.value}
               target="_blank"
@@ -267,7 +277,12 @@ export const ShareBottomSheet = withToastController((
           <OrDivider>
             <span>OR</span>
           </OrDivider>
-          <Button buttonType="primary" type="button" onClick={handleCopy}>
+          <Button
+            tabIndex={!sharedLinkState.value ? -1 : undefined}
+            buttonType="primary"
+            type="button"
+            onClick={handleCopy}
+          >
             Copy shared URL
           </Button>
         </div>

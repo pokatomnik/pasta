@@ -2,7 +2,6 @@ import { useCallback, useEffect } from "preact/hooks";
 import { type Signal, useSignal } from "@preact/signals";
 import { JSX } from "preact/jsx-runtime";
 import { cn } from "shared/classnames/model/classnames.ts";
-import { useFocusTrap } from "shared/focusTrap/useFocusTrap.ts";
 
 const breakPoints = {
   bp25: "h-1/4",
@@ -21,7 +20,6 @@ export const BottomSheet = (
 ) => {
   const { visibility, position, children } = props;
   const backdropVisible = useSignal(visibility.value);
-  const focusTrapRef = useFocusTrap(visibility.value);
 
   useEffect(() => {
     if (visibility.value) {
@@ -67,7 +65,6 @@ export const BottomSheet = (
         )}
       />
       <div
-        ref={focusTrapRef}
         role="alertdialog"
         className={cn(
           `flex overflow-hidden box-border bg-gray-50 flex-col left-1/2 right-1/2 -translate-x-1/2 w-full 2xl:w-1/3 xl:w-1/3 lg:w-1/2 md:w-1/2 sm:w-full fixed bottom-0 shadow-2xl transition-all duration-300 rounded-t-2xl ${

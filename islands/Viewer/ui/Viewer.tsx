@@ -17,6 +17,7 @@ import {
   withToastController,
 } from "shared/Toast/ui/ToastController.tsx";
 import { getDecompressedDataFromHash } from "islands/Viewer/model/getDecompressedDataFromHash.ts";
+import { useFocusTrap } from "shared/focusTrap/useFocusTrap.ts";
 
 export default withToastController<
   Readonly<{
@@ -27,6 +28,7 @@ export default withToastController<
 
   const showToast = useToastContext();
   const needDecrypt = useComputed(() => Boolean(data.value?.e));
+  const focusTrapRef = useFocusTrap<HTMLDivElement>(needDecrypt.value);
   const decryptKeyState = useSignal("");
   const algorythmSelectState = useSignal<Nullable<EncryptorName>>(
     encryptionNames[0],
@@ -85,7 +87,10 @@ export default withToastController<
           </Button>
         }
       >
-        <div className="m-4 flex flex-1 basis-full flex-col overflow-x-hidden overflow-y-auto">
+        <div
+          ref={focusTrapRef}
+          className="m-4 flex flex-1 basis-full flex-col overflow-x-hidden overflow-y-auto"
+        >
           <form
             id="decrypt-pasta"
             onSubmit={handleDecrypt}
