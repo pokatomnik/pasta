@@ -70,9 +70,13 @@ export const ShareBottomSheet = withToastController((
     if (sharedLinkState.value) {
       copyText(
         window.location.origin.concat(makeUrlFromPacked(sharedLinkState.value)),
-      );
+      ).then(() => {
+        showToast("Link copied");
+      }).catch(() => {
+        showToast("Failed to copy link");
+      });
     }
-  }, []);
+  }, [showToast]);
 
   const handleSubmit: JSX.SubmitEventHandler<HTMLFormElement> = useCallback(
     async (evt) => {
@@ -100,7 +104,7 @@ export const ShareBottomSheet = withToastController((
       }
       sharedLinkState.value = packed;
     },
-    [],
+    [showToast],
   );
 
   const hideDialog = useCallback(() => {

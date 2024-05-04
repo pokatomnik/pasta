@@ -6,6 +6,7 @@ import { Toast } from "shared/Toast/ui/Toast.tsx";
 import { ComponentType } from "preact";
 
 const DEFAULT_DURATION = 3000;
+const MAX_TOASTS_NUMBER = 5;
 
 type ContextType = Readonly<{
   push: (message: string, duration?: number) => void;
@@ -24,10 +25,11 @@ export const ToastController = (
   const toastsState = useSignal<Map<string, string>>(new Map());
   const push = useCallback((message: string, duration?: number) => {
     const randomId = getRandomId();
-    toastsState.value = new Map([
+    const entries = [
       ...toastsState.value.entries(),
       [randomId, message],
-    ]);
+    ] as const;
+    toastsState.value = new Map(entries.slice(0, MAX_TOASTS_NUMBER));
     setTimeout(() => {
       const newMap = new Map(toastsState.value.entries());
       newMap.delete(randomId);
