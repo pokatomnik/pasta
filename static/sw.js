@@ -1,4 +1,4 @@
-const appVersion = "1.0.1";
+const appVersion = "1.1.0";
 
 const logServiceWorkerMessageError = (message) => {
   console.log(`[ServiceWorker] ${message}`);
