@@ -8,7 +8,7 @@ export default function Home() {
   const shareDialogVisible = useSignal(false);
   return (
     <>
-      <div className="flex flex-col flex-1 basis-full h-screen overflow-hidden bg-gray-200">
+      <div className="fixed left-0 top-0 bottom-0 right-0 flex flex-col flex-1 basis-full overflow-hidden bg-gray-200">
         <CreatePastaTopBar
           textSignal={textState}
           shareSignal={shareDialogVisible}
