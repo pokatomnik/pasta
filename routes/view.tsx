@@ -7,7 +7,7 @@ import { Pasta } from "entities/Pasta/model/Pasta.ts";
 export default function View() {
   const pastaSignal = useSignal<Nullable<Pasta>>(null);
   return (
-    <div className="flex flex-col flex-1 basis-full h-screen overflow-hidden bg-gray-200">
+    <div className="flex flex-col flex-1 basis-full fixed left-0 top-0 bottom-0 right-0 overflow-hidden bg-gray-200">
       <ViewPastaTopBar pastaSignal={pastaSignal} />
       <div className="flex flex-col flex-1 basis-full overflow-y-scroll">
         <div className="flex flex-1 basis-full justify-center transition-all duration-150 pt-0 pb-0 2xl:pt-4 xl:pt-4 lg:pt-4 2xl:pb-4 xl:pb-4 lg:pb-4">
