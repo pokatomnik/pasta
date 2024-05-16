@@ -2,6 +2,8 @@
   "name": "Pasta",
   "short_name": "Pasta note sharing app",
   "display": "standalone",
+  "scope": "/",
+  "start_url": "/",
   "icons": [
     {
       "src": "/android-chrome-192.png",
