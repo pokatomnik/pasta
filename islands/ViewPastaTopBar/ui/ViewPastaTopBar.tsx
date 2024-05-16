@@ -1,6 +1,7 @@
 import { Signal, useSignal } from "@preact/signals";
 import { Nullable } from "decorate";
 import { Pasta } from "entities/Pasta/model/Pasta.ts";
+import { useEffect } from "preact/hooks";
 import { useCallback } from "preact/hooks";
 import { TopBar as TopBarComponent } from "shared/TopBar/ui/TopBar.tsx";
 import { TopBarButton } from "shared/TopBar/ui/TopBarButton.tsx";
@@ -20,6 +21,17 @@ export default withToastController(function ToastControllerViewPastaTopBar(
   const { pastaSignal } = props;
   const showToast = useToastContext();
   const syncHelpDialogState = useSignal(false);
+
+  useEffect(() => {
+    const oldTitle = document.title;
+    if (pastaSignal.value?.n) {
+      document.title = pastaSignal.value.n;
+      return () => {
+        document.title = oldTitle;
+      };
+    }
+    return () => {};
+  }, [pastaSignal.value?.n]);
 
   const showSyncHelp = useCallback(() => {
     syncHelpDialogState.value = true;
