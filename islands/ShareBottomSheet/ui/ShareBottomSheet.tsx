@@ -269,7 +269,6 @@ export const ShareBottomSheet = withToastController((
               tabIndex={!sharedLinkState.value ? -1 : undefined}
               className="text-blue-500 underline"
               href={sharedLinkState.value}
-              target="_blank"
             >
               Navigate to your pasta
             </a>
