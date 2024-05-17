@@ -5,6 +5,8 @@ export const TopBarTitle = (
 ) => {
   const { children } = props;
   return (
-    <div className="text-center pl-2 pr-2 text-white font-bold">{children}</div>
+    <div className="text-center pl-2 pr-2 text-white font-bold whitespace-nowrap">
+      {children}
+    </div>
   );
 };

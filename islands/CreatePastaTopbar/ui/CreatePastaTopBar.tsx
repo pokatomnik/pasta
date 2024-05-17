@@ -37,10 +37,10 @@ export default function CreatePastaTopBar(
   return (
     <>
       <TopBarComponent title="Pasta♾️">
-        <TopBarButtonComponent onClick={showHelp}>
+        <TopBarButtonComponent title="Show help" onClick={showHelp}>
           Help
         </TopBarButtonComponent>
-        <TopBarButtonComponent onClick={showShareDialog}>
+        <TopBarButtonComponent title="Share note" onClick={showShareDialog}>
           Share
         </TopBarButtonComponent>
       </TopBarComponent>

@@ -12,6 +12,7 @@ import {
 } from "shared/Toast/ui/ToastController.tsx";
 import { BottomSheetDialog } from "shared/BottomSheet/ui/BottomSheetDialog.tsx";
 import { Button } from "shared/Button/ui/Button.tsx";
+import { TopBarLink } from "shared/TopBar/ui/TopBarLink.tsx";
 
 export default withToastController(function ToastControllerViewPastaTopBar(
   props: Readonly<{
@@ -54,9 +55,19 @@ export default withToastController(function ToastControllerViewPastaTopBar(
   return (
     <>
       <TopBarComponent title={pastaSignal.value?.n ?? ""}>
-        <TopBarButton onClick={showSyncHelp}>Sync</TopBarButton>
+        <TopBarLink title="Home page" href="/">🏠</TopBarLink>
+        <TopBarButton title="Show synchronization help" onClick={showSyncHelp}>
+          Sync
+        </TopBarButton>
         {pastaSignal.value && !pastaSignal.value.e
-          ? <TopBarButton onClick={handleClick}>Copy</TopBarButton>
+          ? (
+            <TopBarButton
+              title="Copy all text to clipboard"
+              onClick={handleClick}
+            >
+              Copy
+            </TopBarButton>
+          )
           : <></>}
       </TopBarComponent>
       <BottomSheetDialog
