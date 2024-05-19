@@ -35,7 +35,8 @@
     "shared/": "./shared/",
     "entities/": "./entities/",
     "islands/": "./islands/",
-    "services/": "./services/"
+    "services/": "./services/",
+    "features/": "./features/"
   },
   "compilerOptions": {
     "jsx": "react-jsx",
