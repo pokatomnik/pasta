@@ -5,12 +5,13 @@ import { cn } from "shared/classnames/model/classnames.ts";
 export const Editor = (
   props: Readonly<{
     text: string;
+    autofocus?: boolean;
     onTextChange: (content: string) => void;
     placeholder?: string;
     className?: string;
   }>,
 ) => {
-  const { text, className, onTextChange, placeholder } = props;
+  const { text, className, onTextChange, placeholder, autofocus } = props;
 
   const handleInput = useCallback<JSX.InputEventHandler<HTMLTextAreaElement>>(
     (evt) => {
@@ -21,6 +22,7 @@ export const Editor = (
 
   return (
     <textarea
+      autofocus={autofocus}
       placeholder={placeholder}
       autocomplete="off"
       autoComplete="off"
