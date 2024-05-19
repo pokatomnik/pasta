@@ -9,6 +9,7 @@ import * as $api_short_index from "./routes/api/short/index.ts";
 import * as $index from "./routes/index.tsx";
 import * as $view from "./routes/view.tsx";
 import * as $CreatePastaTopbar_ui_CreatePastaTopBar from "./islands/CreatePastaTopbar/ui/CreatePastaTopBar.tsx";
+import * as $Editor_model_storage from "./islands/Editor/model/storage.ts";
 import * as $Editor_ui_Editor from "./islands/Editor/ui/Editor.tsx";
 import * as $ShareBottomSheet_model_pack from "./islands/ShareBottomSheet/model/pack.ts";
 import * as $ShareBottomSheet_ui_ShareBottomSheet from "./islands/ShareBottomSheet/ui/ShareBottomSheet.tsx";
@@ -29,6 +30,7 @@ const manifest = {
   islands: {
     "./islands/CreatePastaTopbar/ui/CreatePastaTopBar.tsx":
       $CreatePastaTopbar_ui_CreatePastaTopBar,
+    "./islands/Editor/model/storage.ts": $Editor_model_storage,
     "./islands/Editor/ui/Editor.tsx": $Editor_ui_Editor,
     "./islands/ShareBottomSheet/model/pack.ts": $ShareBottomSheet_model_pack,
     "./islands/ShareBottomSheet/ui/ShareBottomSheet.tsx":
