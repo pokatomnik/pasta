@@ -1,5 +1,3 @@
-const appVersion = "1.4.0";
-
 const logServiceWorkerMessageError = (message) => {
   console.log(`[ServiceWorker] ${message}`);
 };
@@ -11,7 +9,7 @@ self.addEventListener("fetch", (e) => {
         const response = await fetch(e.request);
         const clonedResponse = response.clone();
 
-        caches.open(appVersion)
+        caches.open("pasta")
           .then((cache) => {
             cache.put(e.request, clonedResponse);
           }).catch((e) => {
