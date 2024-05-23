@@ -1,6 +1,7 @@
 import { JSX } from "preact/jsx-runtime";
 import { useCallback } from "preact/hooks";
 import { cn } from "shared/classnames/model/classnames.ts";
+import { useTyping } from "shared/typing/ui/useTyping.ts";
 
 export const Editor = (
   props: Readonly<{
@@ -12,6 +13,7 @@ export const Editor = (
   }>,
 ) => {
   const { text, className, onTextChange, placeholder, autofocus } = props;
+  const currentPlaceholder = useTyping({ placeholder: placeholder || "" });
 
   const handleSpecificKeys = useCallback<
     JSX.KeyboardEventHandler<HTMLTextAreaElement>
@@ -42,7 +44,7 @@ export const Editor = (
   return (
     <textarea
       autofocus={autofocus}
-      placeholder={placeholder}
+      placeholder={currentPlaceholder}
       autocomplete="off"
       autoComplete="off"
       value={text}
