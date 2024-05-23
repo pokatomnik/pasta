@@ -5,7 +5,7 @@ import { BoundMethod } from "decorate";
 @Provide()
 export class ConsoleLogger implements Logger {
   private formatMessage(message: string) {
-    return `[${new Date().toISOString}] ${message}`;
+    return `[${new Date().toISOString()}] ${message}`;
   }
 
   @BoundMethod
