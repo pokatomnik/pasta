@@ -73,10 +73,7 @@ export default withToastController<
 
   return (
     <>
-      <ViewerComponent
-        text={data.value && !data.value.e ? data.value.d : ""}
-        placeholder="A new note text"
-      />
+      <ViewerComponent text={data.value && !data.value.e ? data.value.d : ""} />
       <BottomSheetDialog
         visibility={needDecrypt}
         title="Encrypted text"
