@@ -1,7 +1,10 @@
-import highlight from "highlight.js";
 import { useCallback } from "preact/hooks";
 import { cn } from "shared/classnames/model/classnames.ts";
 import { Idle } from "shared/Idle/ui/Idle.tsx";
+import {
+  highlight,
+  RELEVANCE_THRESHOLD,
+} from "shared/Viewer/model/Highlight.ts";
 
 export const Viewer = (
   props: Readonly<{
@@ -13,8 +16,12 @@ export const Viewer = (
 
   const createTextNode = useCallback((text: string) => {
     try {
+      const { relevance, value } = highlight(text);
+      if (relevance < RELEVANCE_THRESHOLD) {
+        return { text };
+      }
       return {
-        html: highlight.highlightAuto(text).value,
+        html: value,
       };
     } catch {
       return { text };
@@ -26,7 +33,8 @@ export const Viewer = (
       {({ html, text }) => (
         <code
           className={cn(
-            "inline-block resize-none outline-none border-none font-mono whitespace-pre overflow break-words overflow-x-auto",
+            "inline-block resize-none outline-none border-none font-mono overflow overflow-x-auto break-words",
+            { "whitespace-pre": Boolean(html) },
             className,
           )}
           dangerouslySetInnerHTML={html
