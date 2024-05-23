@@ -6,11 +6,10 @@ import { Idle } from "shared/Idle/ui/Idle.tsx";
 export const Viewer = (
   props: Readonly<{
     text: string;
-    placeholder?: string;
     className?: string;
   }>,
 ) => {
-  const { text, className, placeholder } = props;
+  const { text, className } = props;
 
   const createTextNode = useCallback((text: string) => {
     try {
@@ -26,7 +25,6 @@ export const Viewer = (
     <Idle value={text} mapper={createTextNode}>
       {({ html, text }) => (
         <code
-          placeholder={placeholder}
           className={cn(
             "inline-block resize-none outline-none border-none font-mono whitespace-pre overflow break-words overflow-x-auto",
             className,
