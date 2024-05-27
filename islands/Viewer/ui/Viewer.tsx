@@ -16,7 +16,7 @@ import {
   useToastContext,
   withToastController,
 } from "shared/Toast/ui/ToastController.tsx";
-import { getDecompressedDataFromHash } from "islands/Viewer/model/getDecompressedDataFromHash.ts";
+import { pastaFromURLIterator } from "islands/Viewer/model/getDecompressedDataFromHash.ts";
 import { useFocusTrap } from "shared/focusTrap/useFocusTrap.ts";
 
 export default withToastController<
@@ -35,12 +35,16 @@ export default withToastController<
   );
 
   useEffect(() => {
-    data.value = null;
-    getDecompressedDataFromHash().then((pasta) => {
-      if (pasta) {
-        data.value = pasta;
+    (async () => {
+      for await (const pasta of pastaFromURLIterator()) {
+        data.value = null;
+        decryptKeyState.value = "";
+        algorythmSelectState.value = encryptionNames[0];
+        if (pasta) {
+          data.value = pasta;
+        }
       }
-    });
+    })();
   }, []);
 
   const handleDecrypt: JSX.SubmitEventHandler<HTMLFormElement> = useCallback(
